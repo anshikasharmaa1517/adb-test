@@ -1,5 +1,5 @@
 # set base image (host OS)
-FROM python:3.8
+FROM python:3.8-bullseye
 
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
@@ -20,8 +20,8 @@ RUN apt-get install -y mongodb-org
 # Install Yarn
 RUN apt-get install -y yarn
 
-# Install PIP
-RUN easy_install pip
+# Install PIP (pinned to <24.1 for celery==5.0.5 metadata compatibility)
+RUN python -m pip install pip==23.3.2
 
 
 ENV ENV_TYPE staging
