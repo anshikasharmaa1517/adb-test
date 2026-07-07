@@ -1,39 +1,22 @@
-"""
-Views for the TODO API.
-
-Thin view layer that delegates business logic to the TodoService.
-Handles HTTP concerns: request parsing, response formatting, status codes.
-"""
-
+from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-import logging
-import os
+import json, logging, os
 from pymongo import MongoClient
 
 from .services import TodoService
 
 logger = logging.getLogger(__name__)
 
-# --- Database connection (configured via environment variables set in Dockerfile) ---
 mongo_uri = 'mongodb://' + os.environ["MONGO_HOST"] + ':' + os.environ["MONGO_PORT"]
 db = MongoClient(mongo_uri)['test_db']
-
-# --- Service instance (single instance shared across requests) ---
 todo_service = TodoService(db)
 
-
 class TodoListView(APIView):
-    """
-    API view for listing and creating TODO items.
-
-    GET  /todos/  → Returns all TODOs from MongoDB.
-    POST /todos/  → Creates a new TODO in MongoDB.
-    """
 
     def get(self, request):
-        """Return all TODO items from the database."""
+        # Implement this method - return all todo items from db instance above.
         try:
             todos = todo_service.get_all()
             return Response(todos, status=status.HTTP_200_OK)
@@ -45,11 +28,7 @@ class TodoListView(APIView):
             )
 
     def post(self, request):
-        """
-        Create a new TODO item.
-
-        Expects JSON body: { "description": "some text" }
-        """
+        # Implement this method - accept a todo item in a mongo collection, persist it using db instance above.
         description = request.data.get('description')
 
         if not description or not str(description).strip():
