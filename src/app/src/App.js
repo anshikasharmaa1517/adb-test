@@ -1,27 +1,36 @@
-import './App.css';
-import logo from './logo.svg';
+/**
+ * App — Root component that composes the TODO application.
+ *
+ * Uses the useTodos custom hook for all state management and
+ * delegates rendering to TodoForm and TodoList components.
+ */
 
+import React from 'react';
+import './App.css';
+import TodoForm from './components/TodoForm';
+import TodoList from './components/TodoList';
+import useTodos from './hooks/useTodos';
 
 export function App() {
+  const { todos, loading, error, addTodo } = useTodos();
+
   return (
     <div className="App">
-      <div>
-        <h1>List of TODOs</h1>
-        <li>Learn Docker</li>
-        <li>Learn React</li>
-      </div>
-      <div>
-        <h1>Create a ToDo</h1>
-        <form>
-          <div>
-            <label for="todo">ToDo: </label>
-            <input type="text" />
-          </div>
-          <div style={{"marginTop": "5px"}}>
-            <button>Add ToDo!</button>
-          </div>
-        </form>
-      </div>
+      <header className="app-header">
+        <h1>Adbrew TODO</h1>
+      </header>
+
+      <main className="app-content">
+        <section className="section">
+          <h2>Create a ToDo</h2>
+          <TodoForm onSubmit={addTodo} />
+        </section>
+
+        <section className="section">
+          <h2>List of TODOs</h2>
+          <TodoList todos={todos} loading={loading} error={error} />
+        </section>
+      </main>
     </div>
   );
 }
