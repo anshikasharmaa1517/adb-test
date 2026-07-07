@@ -157,26 +157,8 @@ celery==5.0.5 has invalid metadata:
 
 ## Architecture
 
-```mermaid
-graph LR
-    subgraph Frontend ["React App (port 3000)"]
-        App["App.js<br/>Composition Root"] --> Hook["useTodos<br/>Custom Hook"]
-        App --> Form["TodoForm<br/>Component"]
-        App --> List["TodoList<br/>Component"]
-        Hook --> API["todoApi<br/>Service Layer"]
-    end
+<img width="4418" height="1667" alt="ADB@2x" src="https://github.com/user-attachments/assets/85f71bc6-cdc5-4474-be48-8b373344269e" />
 
-    subgraph Backend ["Django API (port 8000)"]
-        Views["views.py<br/>Thin Controller"] --> Service["services.py<br/>Repository Layer"]
-    end
-
-    subgraph Database ["MongoDB (port 27017)"]
-        Mongo["test_db.todos"]
-    end
-
-    API -- "GET/POST /todos/" --> Views
-    Service -- "PyMongo" --> Mongo
-```
 
 ### Design Principles Applied
 
